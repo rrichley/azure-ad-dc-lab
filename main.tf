@@ -6,8 +6,8 @@
 provider "azurerm" {
   features {}
 
-  subscription_id = "929d7635-207a-4b22-8d24-34e2ae29092b"
-  tenant_id       = "afa83c1b-f72b-41e3-a84a-5d8d9f0b4654"
+  subscription_id = "
+  tenant_id       = "
 }
 
 # -------------------------
