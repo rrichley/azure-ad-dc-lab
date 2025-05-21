@@ -6,10 +6,9 @@
 provider "azurerm" {
   features {}
 
-  subscription_id = "
-  tenant_id       = "
+  subscription_id = var.subscription_id
+  tenant_id       = var.tenant_id
 }
-
 # -------------------------
 # 2. Resource Group
 # -------------------------
@@ -96,8 +95,8 @@ resource "azurerm_windows_virtual_machine" "dc" {
   location              = azurerm_resource_group.dc_lab.location
   resource_group_name   = azurerm_resource_group.dc_lab.name
   size                  = "Standard_DS2_v2"
-  admin_username        = "robadmin"
-  admin_password        = "P@ssword1234!"
+  admin_username = var.admin_username
+  admin_password = var.admin_password
   network_interface_ids = [azurerm_network_interface.nic.id]
 
   os_disk {
