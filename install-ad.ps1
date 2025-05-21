@@ -1,3 +1,5 @@
+Start-Transcript -Path "C:\ad-setup.log" -Force
+
 # Initialise the new data disk (LUN 0) as F:
 $disk = Get-Disk | Where-Object PartitionStyle -Eq 'RAW' | Sort-Object Number | Select-Object -First 1
 Initialize-Disk -Number $disk.Number -PartitionStyle MBR
@@ -22,5 +24,10 @@ Install-ADDSForest `
     -InstallDns:$true `
     -LogPath $ntdsPath `
     -SysvolPath $sysvolPath `
-    -NoRebootOnCompletion:$false `
+    -NoRebootOnCompletion:$true `
     -Force:$true
+
+Stop-Transcript
+
+# Reboot after script completes
+Restart-Computer -Force
