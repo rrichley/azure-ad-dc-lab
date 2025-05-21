@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
 
 env:
-  ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   TF_VAR_admin_username: ${{ secrets.ADMIN_USERNAME }}
   TF_VAR_admin_password: ${{ secrets.ADMIN_PASSWORD }}
+  TF_VAR_subscription_id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  TF_VAR_tenant_id: ${{ secrets.ARM_TENANT_ID }}
+  TF_VAR_client_id: ${{ secrets.ARM_CLIENT_ID }}
+  TF_VAR_client_secret: ${{ secrets.ARM_CLIENT_SECRET }}
 
 jobs:
   deploy:
@@ -32,7 +32,7 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -lock-timeout=300s -input=false -no-color
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
