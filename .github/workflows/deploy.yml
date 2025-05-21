@@ -1,7 +1,7 @@
 name: Deploy Azure AD DC Lab with Terraform
 
 on:
-  workflow_dispatch:  # Manual trigger from GitHub Actions UI
+  workflow_dispatch:
 
 env:
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -11,7 +11,7 @@ env:
   TF_VAR_admin_username: ${{ secrets.ADMIN_USERNAME }}
   TF_VAR_admin_password: ${{ secrets.ADMIN_PASSWORD }}
   TF_LOG: DEBUG
-  TF_LOG_PATH: ./terraform-debug.log
+  TF_LOG_PATH: terraform-debug.log
 
 jobs:
   deploy:
