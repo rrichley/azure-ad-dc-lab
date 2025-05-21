@@ -5,6 +5,7 @@
 *.backup
 *.log
 crash.log
-*.override.tf
-*.override.tf.json
+terraform-debug.log
 terraform.tfvars
+.override.tf
+*.override.tf.json
