@@ -10,10 +10,13 @@ env:
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   TF_VAR_admin_username: ${{ secrets.ADMIN_USERNAME }}
   TF_VAR_admin_password: ${{ secrets.ADMIN_PASSWORD }}
+  TF_LOG: DEBUG
+  TF_LOG_PATH: ./terraform-debug.log
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
@@ -35,6 +38,13 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
         working-directory: .
+
+      - name: Upload Debug Log
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-debug-log
+          path: ./terraform-debug.log
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
