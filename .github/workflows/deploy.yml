@@ -1,7 +1,7 @@
 name: Deploy Azure AD DC Lab with Terraform
 
 on:
-  workflow_dispatch:  # Manual trigger in GitHub Actions
+  workflow_dispatch:
 
 env:
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
@@ -26,12 +26,16 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: .
 
       - name: Terraform Validate
         run: terraform validate
+        working-directory: .
 
       - name: Terraform Plan
         run: terraform plan
+        working-directory: .
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        working-directory: .
