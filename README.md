@@ -1,16 +1,26 @@
-
 # Azure AD Domain Controller Lab (Terraform)
 
-Deploys a Windows Server 2022 VM as a Domain Controller using Terraform in Azure.
+This lab deploys a Windows Server 2022 VM with the Active Directory Domain Services (AD DS) role pre-installed, using Terraform in Azure. It sets up the infrastructure and prepares the VM to be promoted to a domain controller manually.
 
 ## ✅ What It Does
-- Sets up: Resource Group, VNet, Subnet, NSG, Public IP, VM, Data Disk
-- Attaches and initializes a separate data disk for NTDS.dit and SYSVOL
-- Adds AD DS role and promotes the VM to a domain controller using a PowerShell script
-- RDP access enabled (port 3389)
+- Sets up: Resource Group, VNet, Subnet, NSG, Public IP, Windows Server 2022 VM, and a dedicated Data Disk
+- Attaches and initializes the data disk for NTDS.dit and SYSVOL paths
+- Installs the AD DS role on the VM (but does **not** promote it to a domain controller by default)
+- Enables RDP access (port 3389) to the VM
 
-## 🧰 How to Use
-```bash
-terraform init
-terraform apply
-```
+## 🛠 Manual Domain Promotion (Optional)
+Once deployed, you can RDP into the VM and run your own promotion script. Here's an example:
+
+```powershell
+Import-Module ADDSDeployment
+
+Install-ADDSForest `
+  -DomainName "yourdomain.local" `
+  -DomainNetbiosName "YOURDOMAIN" `
+  -InstallDNS `
+  -CreateDnsDelegation:$false `
+  -DatabasePath "F:\Windows\NTDS" `
+  -LogPath "F:\Windows\NTDS" `
+  -SysvolPath "F:\Windows\SYSVOL" `
+  -SafeModeAdministratorPassword (ConvertTo-SecureString "YourDSRMPassword123!" -AsPlainText -Force) `
+  -Force:$true
