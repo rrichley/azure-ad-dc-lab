@@ -29,5 +29,5 @@ Install-ADDSForest `
 
 Stop-Transcript
 
-# Reboot after script completes
-Restart-Computer -Force
+# Commented out to allow Custom Script Extension to return success to Terraform
+# Restart-Computer -Force
