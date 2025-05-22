@@ -162,4 +162,9 @@ resource "azurerm_virtual_machine_extension" "provision_ad" {
     "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File install-ad.ps1"
   }
   SETTINGS
+
+  # This ensures the extension is re-created on each apply if the script changes
+  tags = {
+    timestamp = "${timestamp()}"
+  }
 }
